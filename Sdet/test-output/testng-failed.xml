@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test name="Test">
+    <classes>
+      <class name="com.crm.vtiger.organizationtest.TC_04_VerifyTypeDropdown"/>
+      <class name="com.crm.vtiger.organizationtest.TC_02_VerifyIndustryDropdown"/>
+      <class name="com.crm.vtiger.organizationtest.TC_03_CreateOrganizationWithIndustry"/>
+      <class name="com.crm.vtiger.organizationtest.TC_01_CreateOrganization"/>
+      <class name="com.crm.vtiger.organizationtest.TC_05_CreateOrganizationWithType"/>
+    </classes>
+  </test> <!-- Test -->
+  <test name="Test(failed)">
+    <classes>
+      <class name="com.crm.vtiger.organizationtest.TC_02_VerifyIndustryDropdown">
+        <methods>
+          <include name="logout"/>
+          <include name="closeBrowser"/>
+          <include name="launchBrowser"/>
+          <include name="login"/>
+        </methods>
+      </class> <!-- com.crm.vtiger.organizationtest.TC_02_VerifyIndustryDropdown -->
+      <class name="com.crm.vtiger.organizationtest.TC_03_CreateOrganizationWithIndustry">
+        <methods>
+          <include name="logout"/>
+          <include name="closeBrowser"/>
+          <include name="launchBrowser"/>
+          <include name="login"/>
+        </methods>
+      </class> <!-- com.crm.vtiger.organizationtest.TC_03_CreateOrganizationWithIndustry -->
+      <class name="com.crm.vtiger.organizationtest.TC_05_CreateOrganizationWithType">
+        <methods>
+          <include name="createOrganizationWithTypeTest"/>
+        </methods>
+      </class> <!-- com.crm.vtiger.organizationtest.TC_05_CreateOrganizationWithType -->
+      <class name="com.crm.vtiger.organizationtest.TC_01_CreateOrganization">
+        <methods>
+          <include name="logout"/>
+          <include name="launchBrowser"/>
+          <include name="createOrganisationTest"/>
+          <include name="login"/>
+        </methods>
+      </class> <!-- com.crm.vtiger.organizationtest.TC_01_CreateOrganization -->
+      <class name="com.crm.vtiger.organizationtest.TC_04_VerifyTypeDropdown">
+        <methods>
+          <include name="logout"/>
+          <include name="closeBrowser"/>
+          <include name="launchBrowser"/>
+          <include name="login"/>
+          <include name="openDatabase"/>
+        </methods>
+      </class> <!-- com.crm.vtiger.organizationtest.TC_04_VerifyTypeDropdown -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

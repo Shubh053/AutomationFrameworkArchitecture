@@ -1,0 +1,88 @@
+package com.crm.vtiger.testcases;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.Test;
+
+import com.crm.vtiger.genericutils.ExcelUtility;
+import com.crm.vtiger.genericutils.FileUtility;
+import com.crm.vtiger.genericutils.JavaUtility;
+import com.crm.vtiger.genericutils.CommonUtility;
+
+public class TC_04_CreateProductAndVerifyWithPartNumberTest {
+	WebDriver driver;
+
+	@Test
+	public void createProductTest() throws Throwable {
+			// get the data from external resources
+				FileUtility file = new FileUtility();
+				CommonUtility wdu = new CommonUtility();
+				JavaUtility ju = new JavaUtility();
+				ExcelUtility eu = new ExcelUtility();
+				
+				String BROWSER = file.getDataFromJson("browser");
+				String URl =file.getDataFromJson("url");
+				String USERNAME = file.getDataFromJson("username");
+				String PASSWORD = file.getDataFromJson("password");
+				String PRODUCTNAME = eu.getDataFromExcel("Sheet1",4,2);
+				String PRODUCTPART = eu.getDataFromExcel("Sheet1",4,3);
+				
+				// select the browser
+				if(BROWSER.equalsIgnoreCase("chrome")) {
+					driver = new ChromeDriver();
+				} else if (BROWSER.equalsIgnoreCase("firefox")) {
+					driver = new FirefoxDriver();
+				} else {
+					System.out.println("Invalid Browser");
+				}
+				
+				// wait for the element to load
+				wdu.waitUntilPageLoad(driver);
+				
+				// maximise the browser
+				wdu.maximizeWindow(driver);
+				
+				// launch browser
+				driver.get(URl);
+				
+				// login to application
+				driver.findElement(By.name("user_name")).sendKeys(USERNAME);
+				driver.findElement(By.name("user_password")).sendKeys(PASSWORD);
+				driver.findElement(By.id("submitButton")).click();
+				
+				// create product
+				driver.findElement(By.linkText("Products")).click();
+				driver.findElement(By.cssSelector("img[title='Create Product...']")).click();
+				driver.findElement(By.name("productname")).sendKeys(PRODUCTNAME + ju.getRanDomNumber());
+				driver.findElement(By.name("productcode")).sendKeys(PRODUCTPART + ju.getRanDomNumber());
+				driver.findElement(By.cssSelector("input[title='Save [Alt+S]']")).click();
+				String productNumber = driver.findElement(By.xpath("//td[@class='dvtCellLabel'][2]/following-sibling::td")).getText().trim();
+				System.out.println(productNumber);
+				driver.findElement(By.linkText("Products")).click();
+				driver.findElement(By.name("search_text")).sendKeys(productNumber, Keys.ENTER);
+//				wdu.waitForElementVisibility(driver, driver.findElement(By.xpath("//table[@class='lvt small']/tbody/tr[3]/td[2]")));
+				Thread.sleep(3000);
+				String verifyProductNumber = driver.findElement(By.xpath("//table[@class='lvt small']/tbody/tr[3]/td[2]")).getText();
+				System.out.println(verifyProductNumber);
+				if(productNumber.equals(verifyProductNumber)) {
+					System.out.println("Product number is matching");
+				} else {
+					System.out.println("Product number is not matching");
+				}
+				
+				// sign out from application
+				Thread.sleep(5000);
+				WebElement signOut = driver.findElement(By.xpath("//img[@src='themes/softed/images/user.PNG']"));
+				wdu.mouseOver(driver, signOut);
+				WebElement clickSignOut = driver.findElement(By.linkText("Sign Out"));
+				wdu.mouseOver(driver, clickSignOut);
+			
+				// close the browser
+				wdu.closeBrowser(driver);
+	}
+	
+}
